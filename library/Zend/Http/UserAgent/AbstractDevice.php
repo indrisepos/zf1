@@ -124,7 +124,7 @@ abstract class Zend_Http_UserAgent_AbstractDevice
      *
      * @return string
      */
-    public function serialize()
+    public function __serialize()
     {
         $spec = array(
             '_aFeatures'      => $this->_aFeatures,
@@ -143,10 +143,26 @@ abstract class Zend_Http_UserAgent_AbstractDevice
      * @param  string $serialized
      * @return void
      */
-    public function unserialize($serialized)
+    public function __unserialize($serialized)
     {
         $spec = unserialize($serialized);
         $this->_restoreFromArray($spec);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return $this->__serialize();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($data)
+    {
+        $this->__unserialize($data);
     }
 
     /**
